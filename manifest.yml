@@ -1,0 +1,11 @@
+---
+applications:
+- name: SteelToeConfiguration
+  memory: 512M
+  buildpack: dotnet_core_buildpack  
+  env:
+    ASPNETCORE_ENVIRONMENT: development
+    PCFUSER_MONGODB_DATABASE: CloudFoundry_2bt64udp_m5n30koe
+    PCFUSER_MONGODB_COLLECTION_NAME: TestCollection
+  services:
+    - mongodb

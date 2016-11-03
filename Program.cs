@@ -15,6 +15,7 @@ namespace SteelToeConfiguration
             var config = new ConfigurationBuilder()
                 .AddCommandLine(args)
                 .AddEnvironmentVariables(prefix: "ASPNETCORE_")
+                .AddEnvironmentVariables(prefix: "PCFUSER_")
                 .Build();
 
             var host = new WebHostBuilder()
