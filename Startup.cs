@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
 using Steeltoe.Extensions.Configuration;
 
 namespace SteelToeConfiguration
@@ -16,13 +17,17 @@ namespace SteelToeConfiguration
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                 .AddCloudFoundry();
             Configuration = builder.Build();
+            MongoClient = new MongoClient(Configuration["vcap:services:[mlab]:0:credentials:uri"]);
+
         }
 
         public IConfigurationRoot Configuration { get; }
+        public IMongoClient MongoClient {get;}
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IMongoClient>(provider => MongoClient);
             services.AddSingleton<IConfigurationRoot>(Configuration);
             services.AddMvc();
         }

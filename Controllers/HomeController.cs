@@ -1,16 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-
+using MongoDB.Driver;
 
 namespace SteelToeConfiguration.Controllers
 {
     public class HomeController : Controller
     {
         public IConfigurationRoot Configuration {get;}
-
-        public HomeController(IConfigurationRoot configuration)
+        public IMongoClient MongoClient {get;}
+        public HomeController(IConfigurationRoot configuration, IMongoClient mongoClient)
         {
             Configuration = configuration;
+            MongoClient = mongoClient;
         }
 
         public IActionResult Index()
