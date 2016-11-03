@@ -1,0 +1,8 @@
+---
+applications:
+- name: SteelToeConfiguration
+  memory: 512M
+  buildpack: dotnet_core_buildpack  
+  env:
+    ASPNETCORE_ENVIRONMENT: development
+  

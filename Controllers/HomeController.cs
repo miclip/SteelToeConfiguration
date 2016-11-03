@@ -1,15 +1,22 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+
 
 namespace SteelToeConfiguration.Controllers
 {
     public class HomeController : Controller
     {
+        public IConfigurationRoot Configuration {get;}
+
+        public HomeController(IConfigurationRoot configuration)
+        {
+            Configuration = configuration;
+        }
+
         public IActionResult Index()
         {
+            ViewBag.ApplicationName = Configuration["vcap:application:application_name"];
+            ViewBag.InstanceId = Configuration["vcap:application:instance_id"];
             return View();
         }
 
