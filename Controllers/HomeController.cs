@@ -21,11 +21,14 @@ namespace SteelToeConfiguration.Controllers
         public IActionResult Index()
         {
             var mongoDb = MongoClient.GetDatabase(MongoDbName);
-            var collectionOptions = new CreateCollectionOptions();
-
-            mongoDb.CreateCollection(MongoDbCollectionName, collectionOptions);
             var collection = mongoDb.GetCollection<BsonDocument>(MongoDbCollectionName);
-            
+
+            if(collection == null)
+            {
+                var collectionOptions = new CreateCollectionOptions();
+                mongoDb.CreateCollection(MongoDbCollectionName, collectionOptions);
+            }
+                            
             ViewBag.MongoDbDatabase = MongoDbName; 
             ViewBag.ApplicationName = Configuration["vcap:application:application_name"];
             ViewBag.InstanceId = Configuration["vcap:application:instance_id"];
