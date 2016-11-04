@@ -16,10 +16,9 @@ namespace SteelToeConfiguration
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables()
                 .AddCloudFoundry();
             Configuration = builder.Build();
-            
-
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -29,7 +28,7 @@ namespace SteelToeConfiguration
         public void ConfigureServices(IServiceCollection services)
         {
             var mongoDbConnectionString = Configuration["vcap:services:mlab:0:credentials:uri"];
-            MongoClient = new MongoClient();
+            MongoClient = new MongoClient(mongoDbConnectionString);
 
             services.AddTransient<IMongoClient>(provider => MongoClient);
             services.AddSingleton<IConfigurationRoot>(Configuration);

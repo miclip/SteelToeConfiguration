@@ -6,18 +6,16 @@ using System;
 
 namespace SteelToeConfiguration.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
 
-        private readonly string MongoDbName = Environment.GetEnvironmentVariable("MONGODB_DATABASE");
-        private readonly string MongoDbCollectionName = Environment.GetEnvironmentVariable("MONGODB_COLLECTION_NAME");
+        private readonly string MongoDbName;
+        private readonly string MongoDbCollectionName;
 
-        public IConfigurationRoot Configuration {get;}
-        public IMongoClient MongoClient {get;}
-        public HomeController(IConfigurationRoot configuration, IMongoClient mongoClient)
+        public HomeController(IConfigurationRoot configuration, IMongoClient mongoClient) : base(configuration, mongoClient)
         {
-            Configuration = configuration;
-            MongoClient = mongoClient;
+            MongoDbName = Configuration["PCFUSER_MONGODB_DATABASE"];
+            MongoDbCollectionName = Configuration["PCFUSER_MONGODB_COLLECTION_NAME"];
         }
 
         public IActionResult Index()
@@ -37,14 +35,12 @@ namespace SteelToeConfiguration.Controllers
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
-
             return View();
         }
 
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
-
             return View();
         }
 
