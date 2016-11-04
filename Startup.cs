@@ -28,7 +28,7 @@ namespace SteelToeConfiguration
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var mongoDbConnectionString = Configuration["vcap:services:[mlab]:0:credentials:uri"];
+            var mongoDbConnectionString = Configuration["vcap:services:mlab:0:credentials:uri"];
             MongoClient = new MongoClient();
 
             services.AddTransient<IMongoClient>(provider => MongoClient);
